@@ -28,11 +28,18 @@ public:
       int32_t imageWidth = image.resolution.width;
       int32_t imageHeight = image.resolution.height;
       int pixelsCount = image.pixels.size();
+      bool patternFound = false;
 
-      for (int pixelIndex = 0; pixelIndex < pixelsCount; pixelIndex++) {
+      for (int pixelIndex = 0; pixelIndex < pixelsCount; (!patternFound) ? pixelIndex += 5 : pixelIndex++) {
           Pixel currentPixel = image.pixels.at(pixelIndex);
 
           if (currentPixel.red >= 200) {
+              if (!patternFound) {
+                  patternFound = true;
+                  pixelIndex -= 5;
+                  continue;
+              }
+
               std::list<int> matchedPixelsIndexes;
 
               addBasePatternPixels(image.pixels, pixelIndex, matchedPixelsIndexes, imageWidth);
@@ -50,6 +57,8 @@ public:
                       currentPixel.red -= 150;
                   }
               }
+
+              patternFound = false;
           }
       }
   }
