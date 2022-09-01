@@ -44,8 +44,10 @@ public:
 
               for each (int matchedPixelIndex in matchedPixelsIndexes)
               {
-                  if (image.pixels.at(matchedPixelIndex).red >= 200) {  // The same pixel might have been added multiple times by different patterns
-                      image.pixels.at(matchedPixelIndex).red -= 150;
+                  Pixel& currentPixel = image.pixels.at(matchedPixelIndex);
+
+                  if (currentPixel.red >= 200) {  // The same pixel might have been added multiple times by different patterns
+                      currentPixel.red -= 150;
                   }
               }
           }
