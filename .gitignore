@@ -1,5 +1,6 @@
-input.bin
-output.bin
+input.bin*
+output.bin*
+swap_tests.sh
 
 *.sln
 *.vcxproj*
