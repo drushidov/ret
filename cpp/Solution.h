@@ -13,7 +13,7 @@ public:
   void compute([[maybe_unused]]std::vector<PackedImage> &images) {
     FunctionTracer<std::chrono::milliseconds> tracer("compute", "ms");
 
-    for (int i = 0; i < images.size(); i++) {
+    for (size_t i = 0; i < images.size(); i++) {
         PackedImage& image = images.at(i);
         computeImage(image);
     }
@@ -27,10 +27,10 @@ public:
   void computeImage(PackedImage& image) {
       int32_t imageWidth = image.resolution.width;
       int32_t imageHeight = image.resolution.height;
-      int pixelsCount = image.pixels.size();
+      size_t pixelsCount = image.pixels.size();
       bool patternFound = false;
 
-      for (int pixelIndex = 0; pixelIndex < pixelsCount; (!patternFound) ? pixelIndex += 5 : pixelIndex++) {
+      for (size_t pixelIndex = 0; pixelIndex < pixelsCount; (!patternFound) ? pixelIndex += 5 : pixelIndex++) {
           Pixel currentPixel = image.pixels.at(pixelIndex);
 
           if (currentPixel.red >= 200) {
@@ -40,15 +40,15 @@ public:
                   continue;
               }
 
-              std::list<int> matchedPixelsIndexes;
+              std::list<int32_t> matchedPixelsIndexes;
 
               addBasePatternPixels(image.pixels, pixelIndex, matchedPixelsIndexes, imageWidth);
 
-              for (int patternIndex = 0; patternIndex < EYE_PATTERNS.size(); patternIndex++) {
+              for (size_t patternIndex = 0; patternIndex < EYE_PATTERNS.size(); patternIndex++) {
                   checkPattern(image.pixels, pixelIndex, matchedPixelsIndexes, imageWidth, imageHeight, EYE_PATTERNS[patternIndex]);
               }
 
-              std::list<int>::iterator pixelsIndexesIterator;
+              std::list<int32_t>::iterator pixelsIndexesIterator;
 
               for (pixelsIndexesIterator = matchedPixelsIndexes.begin();
                   pixelsIndexesIterator != matchedPixelsIndexes.end();
@@ -65,18 +65,18 @@ public:
       }
   }
 
-  void addBasePatternPixels(std::vector<Pixel>& pixels, size_t startingPixelIndex, std::list<int>& matchedPixelsIndexes, int32_t width) {
+  void addBasePatternPixels(std::vector<Pixel>& pixels, size_t startingPixelIndex, std::list<int32_t>& matchedPixelsIndexes, int32_t width) {
       for (size_t row = 0; row < 5; row++)
       {
           for (size_t col = 0; col < 5; (row == 0 || row == 4) ? col++ : col += 4)
           {
-              int currentPixelIndex = getPixelIndexByOffset(startingPixelIndex, row, col, width);
+              int32_t currentPixelIndex = getPixelIndexByOffset(startingPixelIndex, row, col, width);
               matchedPixelsIndexes.push_back(currentPixelIndex);
           }
       }
   }
 
-  void checkPattern(std::vector<Pixel>& pixels, size_t startingPixelIndex, std::list<int>& matchedPixelsIndexes, int32_t width, int32_t height, EyePattern pattern) {
+  void checkPattern(std::vector<Pixel>& pixels, size_t startingPixelIndex, std::list<int32_t>& matchedPixelsIndexes, int32_t width, int32_t height, EyePattern pattern) {
       int currentPatternMatchesCount = 0;
 
       for (size_t row = 1; row < 4; row++)
@@ -84,7 +84,7 @@ public:
           for (size_t col = 1; col < 4; col++)
           {
               const char currentPatternChar = pattern.at(row)[col];
-              int currentPixelIndex = getPixelIndexByOffset(startingPixelIndex, row, col, width);
+              int32_t currentPixelIndex = getPixelIndexByOffset(startingPixelIndex, row, col, width);
               Pixel currentPixel = pixels.at(currentPixelIndex);
 
               if (currentPatternChar == ' ') {
