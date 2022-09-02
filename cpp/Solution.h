@@ -44,14 +44,16 @@ public:
 
               addBasePatternPixels(image.pixels, pixelIndex, matchedPixelsIndexes, imageWidth);
 
-              for each (EyePattern pattern in EYE_PATTERNS)
-              {
-                  checkPattern(image.pixels, pixelIndex, matchedPixelsIndexes, imageWidth, imageHeight, pattern);
+              for (int patternIndex = 0; patternIndex < EYE_PATTERNS.size(); patternIndex++) {
+                  checkPattern(image.pixels, pixelIndex, matchedPixelsIndexes, imageWidth, imageHeight, EYE_PATTERNS[patternIndex]);
               }
 
-              for each (int matchedPixelIndex in matchedPixelsIndexes)
-              {
-                  Pixel& currentPixel = image.pixels.at(matchedPixelIndex);
+              std::list<int>::iterator pixelsIndexesIterator;
+
+              for (pixelsIndexesIterator = matchedPixelsIndexes.begin();
+                  pixelsIndexesIterator != matchedPixelsIndexes.end();
+                  pixelsIndexesIterator++) {
+                  Pixel& currentPixel = image.pixels.at(*pixelsIndexesIterator);
 
                   if (currentPixel.red >= 200) {  // The same pixel might have been added multiple times by different patterns
                       currentPixel.red -= 150;
