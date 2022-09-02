@@ -66,6 +66,16 @@ public:
   }
 
   void addBasePatternPixels(std::vector<Pixel>& pixels, size_t startingPixelIndex, std::list<int32_t>& matchedPixelsIndexes, int32_t width) {
+      /*
+          The base pattern consists of the common parts of all patterns, i.e.:
+          /---\
+          |   |
+          |   |
+          |   |
+          \---/
+
+          The last common part in the middle is skipped for simplicity.
+      */
       for (size_t row = 0; row < 5; row++)
       {
           for (size_t col = 0; col < 5; (row == 0 || row == 4) ? col++ : col += 4)
