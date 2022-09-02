@@ -71,7 +71,6 @@ public:
           for (size_t col = 0; col < 5; (row == 0 || row == 4) ? col++ : col += 4)
           {
               int currentPixelIndex = getPixelIndexByOffset(startingPixelIndex, row, col, width);
-              Pixel currentPixel = pixels.at(currentPixelIndex);
               matchedPixelsIndexes.push_back(currentPixelIndex);
           }
       }
